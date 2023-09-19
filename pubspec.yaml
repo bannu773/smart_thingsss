@@ -1,5 +1,5 @@
-name: smart_things
-description: A new Flutter project.
+name: Arum_Smart_Home
+description: Product by Arum innovations Pvt. Ltd.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
+  rive: ^0.7.22
+  provider: ^6.0.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +42,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  shared_preferences: ^2.2.0
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -64,6 +67,7 @@ flutter:
   assets:
   
     - assets/
+    - assets/logo_1.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

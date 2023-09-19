@@ -1,6 +1,10 @@
+import 'package:Arum_Smart_Home/comp/widget/change_theme_button_widget.dart';
+import 'package:Arum_Smart_Home/provider/theme_provider.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 import '../color/colors.dart' as color;
+import '../color/dark_color.dart' as darkcolor;
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -14,22 +18,37 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final menu_back = themeProvider.isDarkMode
+        ? darkcolor.AppColorDark.menu_back
+        : color.AppColor.menu_back;
     var iconss = [
       Icons.home,
       Icons.menu,
       Icons.keyboard_voice_outlined,
       Icons.science_rounded
     ];
+    int crossAxisCount = currentWidth > 800
+        ? 4
+        : currentWidth > 600
+            ? 3
+            : currentWidth > 372
+                ? 2
+                : 2;
+    double gridItemWidth =
+        (currentWidth - (crossAxisCount - 1) * 10) / crossAxisCount;
+
+    // Calculate the height of each grid item (adjust as needed)
+    double gridItemHeight = currentWidth > 372 ? 160 : 160;
     var iconstext = ["Android Auto", "Companion", "Voice assistant", "Labs"];
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text(
-          "Smart Things",
+          "Arum Smart Homes",
           style: TextStyle(
-            color: Colors.black54,
+            // color: Colors.black54,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -41,7 +60,7 @@ class _MenuState extends State<Menu> {
               child: Icon(
                 Icons.settings_outlined,
                 size: 26.0,
-                color: Colors.black26,
+                // color: Colors.black26,
               ),
             ),
           ),
@@ -51,9 +70,9 @@ class _MenuState extends State<Menu> {
         width: currentWidth,
         height: currentHeight,
         decoration: BoxDecoration(
-          color: color.AppColor.Menu_color,
-        ),
-        padding: EdgeInsets.only(top: 65),
+            // color: Color.fromARGB(255, 245, 245, 245),
+            ),
+        padding: EdgeInsets.only(top: 15),
         child: SingleChildScrollView(
           child: Container(
             // Whole Body Colum ---------------------
@@ -65,7 +84,7 @@ class _MenuState extends State<Menu> {
                   height: 105,
                   padding: EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   // Column Start ------------------------------- /////////////////
@@ -117,7 +136,7 @@ class _MenuState extends State<Menu> {
                   padding: EdgeInsets.all(14),
                   margin: EdgeInsets.only(top: 15),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   // Column Start ------------------------------- /////////////////
@@ -162,107 +181,79 @@ class _MenuState extends State<Menu> {
                     ],
                   ),
                 ),
-                // Container(
-                //   width: currentWidth,
-                //   height: 200,
-                //   color: Colors.white,
-                //   margin: EdgeInsets.only(
-                //     top: 15,
-                //   ),
-                //   child: Column(
-                //     children: [
-                //       Padding(padding: EdgeInsets.only(top: 20)),
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //         children: [
-                //           Container(
-                //             width: 60,
-                //             height: 60,
-                //             child: Icon(Icons.analytics),
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(50),
-                //               color: Colors.black,
-                //             ),
-                //           ),
-                //           Container(
-                //             width: 60,
-                //             height: 60,
-                //             child: Icon(Icons.menu),
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(50),
-                //               color: Colors.black,
-                //             ),
-                //           ),
-                //           Container(
-                //             width: 60,
-                //             height: 60,
-                //             child: Icon(
-                //               Icons.keyboard_voice_outlined,
-                //             ),
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(50),
-                //               color: Colors.black,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //       SizedBox(
-                //         height: 20,
-                //       ),
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //         children: [
-                //           Container(
-                //             width: 60,
-                //             height: 60,
-                //             child: Icon(Icons.science_rounded),
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(50),
-                //               color: Colors.black,
-                //             ),
-                //           ),
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                // ),
+
                 SizedBox(
                   height: 20,
                 ),
+                // Container(
+                //   width: currentWidth,
+                //   height: 250,
+                //   child: GridView.builder(
+                //       shrinkWrap: true,
+                //       physics: NeverScrollableScrollPhysics(),
+                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //         crossAxisCount: 3,
+                //         mainAxisSpacing: 10,
+                //         crossAxisSpacing: 10,
+                //         childAspectRatio: gridItemWidth / gridItemHeight,
+                //       ),
+                //       itemBuilder: (context, index) {
+                //         return Container(
+                //           height: 60, // Set the height you desire
+                //           child: Column(
+                //             children: [
+                //               Padding(
+                //                 padding:
+                //                     const EdgeInsets.only(left: 10, right: 10),
+                //                 child: Container(
+                //                   width: 60,
+                //                   height: 60,
+                //                   child: Icon(iconss[4]),
+                //                   decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(50),
+                //                     color: Color.fromARGB(31, 139, 139, 139),
+                //                   ),
+                //                 ),
+                //               ),
+                //               Text(iconstext[index]),
+                //             ],
+                //           ),
+                //         );
+                //       }),
+                // ),
                 Container(
+                  height: 250,
                   width: currentWidth,
-                  height: 260,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                   ),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Container(
-                              width: 60,
-                              height: 60,
+                  child: GridView.count(
+                    crossAxisCount: 3, // Number of columns
+                    mainAxisSpacing: 0, // Vertical spacing
+                    crossAxisSpacing: 0, // Horizontal spacing
+                    children: List.generate(4, (index) {
+                      return Container(
+                        height: 60, // Set the height you desire
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: Container(
+                                width: 60,
+                                height: 60,
                                 child: Icon(iconss[index]),
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.black12,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Color.fromARGB(31, 139, 139, 139),
+                                ),
                               ),
                             ),
-                          ),
-                          Text(iconstext[index]),
-                        ],
+                            Text(iconstext[index]),
+                          ],
+                        ),
                       );
-                    },
-                    itemCount: 4,
+                    }),
                   ),
                 ),
                 SizedBox(
@@ -272,9 +263,9 @@ class _MenuState extends State<Menu> {
                 // First 2 boxes for history and notifications -- //////
                 Container(
                   width: currentWidth,
-                  height: 100,
+                  height: 180,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                   ),
                   child: Column(
                     children: [
@@ -290,6 +281,33 @@ class _MenuState extends State<Menu> {
                                 fontWeight: FontWeight.w600, fontSize: 17),
                           ),
                         ],
+                      ),
+                      Container(
+                        width: currentWidth,
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(20),
+                              child: Icon(Icons.schedule_outlined),
+                            ),
+                            Container(
+                              width: currentWidth / 1.3,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    themeProvider.isDarkMode ? "Drak" : "Light",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17),
+                                  ),
+                                  ChangeThemeButtonWidget(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Row(
                         children: [
@@ -315,7 +333,7 @@ class _MenuState extends State<Menu> {
                   width: currentWidth,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                   ),
                   child: Column(
                     children: [
@@ -355,7 +373,7 @@ class _MenuState extends State<Menu> {
                   width: currentWidth,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: menu_back,
                   ),
                   child: Row(
                     children: [

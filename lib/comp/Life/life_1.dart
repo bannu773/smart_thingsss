@@ -1,9 +1,12 @@
+import 'package:Arum_Smart_Home/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_things/comp/menu.dart';
+import 'package:Arum_Smart_Home/comp/menu.dart';
+import 'package:provider/provider.dart';
 import '../../color/colors.dart' as color;
+import '../../color/dark_color.dart' as darkcolor;
 
 class Lifee extends StatefulWidget {
-  const Lifee({super.key});
+  const Lifee({Key? key}) : super(key: key);
 
   @override
   State<Lifee> createState() => _LifeeState();
@@ -14,6 +17,10 @@ class _LifeeState extends State<Lifee> {
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final gradientboxSecond = themeProvider.isDarkMode
+        ? darkcolor.AppColorDark.gradientboxSecond
+        : color.AppColor.gradientboxSecond;
     var life_icons = [
       Icons.email_outlined,
       Icons.privacy_tip_outlined,
@@ -84,8 +91,7 @@ class _LifeeState extends State<Lifee> {
               crossAxisCount: 1,
               mainAxisSpacing: 0,
               crossAxisSpacing: 0,
-              childAspectRatio: (currentWidth - 20) /
-                  120, // Adjust the aspect ratio to control the height of the items
+              childAspectRatio: (currentWidth - 20) / 120,
             ),
             itemBuilder: (context, index) {
               return Container(
@@ -96,8 +102,8 @@ class _LifeeState extends State<Lifee> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        color.AppColor.gradientboxFirst.withOpacity(0.6),
-                        color.AppColor.gradientboxFirst.withOpacity(0.7),
+                        gradientboxSecond.withOpacity(0.6),
+                        gradientboxSecond.withOpacity(0.7),
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -110,7 +116,7 @@ class _LifeeState extends State<Lifee> {
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: Icon(
                           life_icons[index],
-                          color: Colors.white,
+                          // color: Colors.white,
                         ),
                       ),
                       Container(
@@ -123,14 +129,14 @@ class _LifeeState extends State<Lifee> {
                             Text(
                               life_text[index],
                               style: TextStyle(
-                                color: Colors.white,
+                                // color: Colors.white,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             Text(
                               life_par[index],
                               style: TextStyle(
-                                color: Colors.white38,
+                                // color: Colors.white38,
                                 fontSize: 13,
                               ),
                             ),

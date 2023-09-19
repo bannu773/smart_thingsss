@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_things/comp/menu.dart';
+import 'package:Arum_Smart_Home/comp/menu.dart';
 import '../../color/colors.dart' as color;
 
 class Test extends StatefulWidget {
