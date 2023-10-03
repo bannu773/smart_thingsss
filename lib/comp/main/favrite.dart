@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:Arum_Smart_Home/comp/devices/Kitchen/refrigerator.dart';
+import 'package:Arum_Smart_Home/comp/devices/Kitchen/waterleak.dart';
 import 'package:Arum_Smart_Home/comp/widget/change_theme_button_widget.dart';
 import 'package:Arum_Smart_Home/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -34,61 +36,66 @@ class Favrite extends StatefulWidget {
 }
 
 class _FavriteState extends State<Favrite> {
-  final List<String> livingText = [
-    "Living room\nAir Conditioner",
-    "Living room\nRobot Vaccum",
-    "Living room\nAir Purifier",
-    "Living room\nDoor Lock",
-    "Living room\nOutlet",
-    "Living room\nCurtain",
-    "Living room\nLight", // New item added
-    "Living room\nSmartTag", // New item added
-    // Add more grid items if needed
-  ];
+  List<Map<String, dynamic>> componentList = ThemeProvider().componentList;
+  // final List<String> livingText = [
+  //   "Living room\nAir Conditioner",
+  //   "Living room\nRobot Vaccum",
+  //   "Living room\nAir Purifier",
+  //   "Living room\nDoor Lock",
+  //   "Living room\nOutlet",
+  //   "Living room\nCurtain",
+  //   "Living room\nLight", // New item added
+  //   "Living room\nSmartTag", // New item added
+  //   // Add more grid items if needed
+  // ];
 
-  final List<IconData> livingIcons = [
-    Icons.kitchen,
-    Icons.person_2,
-    Icons.account_box,
-    Icons.lock,
-    Icons.face,
-    Icons.curtains,
-    Icons.lightbulb, // New icon for Light
-    Icons.settings_remote, // New icon for SmartTag
-    // Add more icons if needed
-  ];
+  // final List<IconData> livingIcons = [
+  //   Icons.kitchen,
+  //   Icons.person_2,
+  //   Icons.account_box,
+  //   Icons.lock,
+  //   Icons.face,
+  //   Icons.curtains,
+  //   Icons.lightbulb, // New icon for Light
+  //   Icons.settings_remote, // New icon for SmartTag
+  //   // Add more icons if needed
+  // ];
 
   // Constant width and height for each grid item
   static const double gridItemWidth = 150;
   static const double gridItemHeight = 130;
 
-  void navigateToComponentScreen(int index) {
-    switch (index) {
-      case 0:
-        Get.to(AirCondition());
+  void navigateToComponentScreen(dynamic comp) {
+    switch (comp) {
+      case 'SmartTag()':
+        Get.to(SmartTag());
         break;
-      case 1:
-        Get.to(Vaccum());
-        break;
-      case 2:
+      case 'AirPurifier()':
         Get.to(AirPurifier());
         break;
-      case 3:
-        Get.to(DoorLock());
+      case 'AirCondition()':
+        Get.to(AirCondition());
         break;
-      case 4:
+      case 'Outlet()':
         Get.to(Outlet());
         break;
-      case 5:
+      case 'Water_leak()':
+        Get.to(Water_leak());
+        break;
+      case 'Light()':
+        Get.to(Light());
+        break;
+      case 'Beedroom_curtain()':
         Get.to(Beedroom_curtain());
         break;
-      case 6:
-        Get.to(Light()); // Navigate to the Light screen
+      case 'Refrigerator()':
+        Get.to(Refrigerator());
         break;
-      case 7:
-        Get.to(SmartTag()); // Navigate to the SmartTag screen
-        break;
+
       // Add more cases for other components if needed
+      default:
+        // Handle the case when the component name is not recognized
+        break;
     }
   }
 
@@ -112,7 +119,27 @@ class _FavriteState extends State<Favrite> {
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+    // Component List ------------------------------------------------------------------------------
+    componentList = Provider.of<ThemeProvider>(context).componentList;
+    // print(componentList);
+    // List<dynamic> livingText =
+    //     componentList.map((component) => component['name']).toList();
 
+    List<dynamic> livingText = componentList
+        .where((component) => component['isSelected'] == true)
+        .map((component) => component['name'])
+        .toList();
+    print(livingText);
+    // print(componentNames);
+    // List<dynamic> livingIcons =
+    //     componentList.map((component) => component['icon']).toList();
+
+    // List<dynamic> livingComponents =
+    //     componentList.map((component) => component['components']).toList();
+    List<dynamic> livingComponents = componentList
+        .where((component) => component['isSelected'] == true)
+        .map((component) => component['components'])
+        .toList();
     // Defining the Dark Colors
     final themeProvider = Provider.of<ThemeProvider>(context);
     final gradientboxFirst = themeProvider.isDarkMode
@@ -149,7 +176,8 @@ class _FavriteState extends State<Favrite> {
         (currentWidth - (crossAxisCount - 1) * 10) / crossAxisCount;
 
     // Calculate the height of each grid item (adjust as needed)
-    double gridItemHeight = currentWidth > 372 ? 160 : 160;
+    double gridItemHeight = currentWidth > 372 ? 160 : 140;
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -812,85 +840,153 @@ class _FavriteState extends State<Favrite> {
                           childAspectRatio: gridItemWidth / gridItemHeight,
                         ),
                         itemBuilder: (context, index) {
+                          var filteredList = componentList
+                              .where((item) => item["isSelected"])
+                              .toList();
                           return GestureDetector(
                             onTap: () {
-                              navigateToComponentScreen(index);
+                              navigateToComponentScreen(
+                                  filteredList[index]['components']);
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    gradientboxSecond.withOpacity(0.6),
-                                    gradientboxSecond.withOpacity(0.7),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(5, 10),
-                                    blurRadius: 10,
-                                    color: Colors.red.withOpacity(0.2),
+                            onLongPress: () {
+                              setState(() {
+                                filteredList[index]['floatsel'] =
+                                    !filteredList[index]['floatsel'];
+                                Provider.of<ThemeProvider>(context,
+                                        listen: false)
+                                    .notifyListeners();
+                              });
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        gradientboxSecond.withOpacity(0.6),
+                                        gradientboxSecond.withOpacity(0.7),
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: Offset(5, 10),
+                                        blurRadius: 10,
+                                        color: Colors.red.withOpacity(0.2),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              child: Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                padding: EdgeInsets.all(10),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
-                                          livingIcons[index],
-                                          color: favarite_text,
-                                          size: currentWidth > 372 ? 35 : 33,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Icon(
+                                              filteredList[index]['icon'],
+                                              color: favarite_text,
+                                              size:
+                                                  currentWidth > 372 ? 35 : 33,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                color: fav_back,
+                                              ),
+                                              child: Icon(
+                                                Icons.power_settings_new,
+                                                color: favarite_text,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: fav_back,
-                                          ),
-                                          child: Icon(
-                                            Icons.power_settings_new,
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Living Room\n" +
+                                              filteredList[index]['name'],
+                                          style: TextStyle(
+                                            fontSize:
+                                                currentWidth > 372 ? 14 : 12,
                                             color: favarite_text,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          "off",
+                                          style: TextStyle(
+                                            fontSize:
+                                                currentWidth > 372 ? 16 : 12,
+                                            color: color.AppColor.fav_on_off,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      livingText[index],
-                                      style: TextStyle(
-                                        fontSize: currentWidth > 372 ? 14 : 12,
-                                        color: favarite_text,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      "off",
-                                      style: TextStyle(
-                                        fontSize: currentWidth > 372 ? 16 : 12,
-                                        color: color.AppColor.fav_on_off,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                if (filteredList[index]['floatsel'])
+                                  Positioned(
+                                    top: 12,
+                                    right: 65,
+                                    child: ClipRect(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.remove,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              filteredList[index]
+                                                  ['isSelected'] = false;
+
+                                              themeProvider.componentList
+                                                  .forEach((element) {
+                                                if (filteredList.any(
+                                                    (elementitem) =>
+                                                        elementitem["name"] ==
+                                                            element["name"] &&
+                                                        element["floatsel"] &&
+                                                        elementitem[
+                                                            "floatsel"])) {
+                                                  element["isSelected"] = false;
+                                                }
+                                              });
+                                              filteredList[index]['floatsel'] =
+                                                  false;
+                                              Provider.of<ThemeProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .notifyListeners();
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           );
                         },
-                        itemCount: livingText.length,
+                        itemCount: componentList
+                            .where((component) => component['isSelected'])
+                            .length,
                       ),
                     ),
                   ),

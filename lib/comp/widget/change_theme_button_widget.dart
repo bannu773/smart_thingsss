@@ -8,12 +8,27 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Switch.adaptive(
-      value: themeProvider.isDarkMode,
-      onChanged: (value) {
-        final provider = Provider.of<ThemeProvider>(context, listen: false);
-        provider.toggleTheme(value);
-        // print(value);
+    return DropdownButton<ThemeMode>(
+      value: themeProvider.themeMode,
+      items: [
+        DropdownMenuItem(
+          value: ThemeMode.light,
+          child: Text('Light'),
+        ),
+        DropdownMenuItem(
+          value: ThemeMode.dark,
+          child: Text('Dark'),
+        ),
+        DropdownMenuItem(
+          value: ThemeMode.system,
+          child: Text('System'),
+        ),
+      ],
+      onChanged: (ThemeMode? newValue) {
+        if (newValue != null) {
+          final provider = Provider.of<ThemeProvider>(context, listen: false);
+          provider.setThemeMode(newValue);
+        }
       },
     );
   }

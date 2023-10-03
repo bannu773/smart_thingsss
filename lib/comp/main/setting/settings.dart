@@ -3,6 +3,7 @@ import 'package:Arum_Smart_Home/comp/signin/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Arum_Smart_Home/comp/main/setting/create_scene/create_scene.dart';
+import 'package:Arum_Smart_Home/comp/main/setting/create_scene/items/air_dresser_scene.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,7 +73,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(Sign_in());
+                      Get.to(Add_to_fav());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -241,30 +242,33 @@ class _SettingsState extends State<Settings> {
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: 20, top: 10, right: 20, bottom: 10),
-                              child: Icon(
-                                Icons.play_circle_fill,
-                                color: Color.fromARGB(255, 0, 153, 255),
-                                size: 30,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 20, top: 10, right: 20, bottom: 10),
+                                child: Icon(
+                                  Icons.play_circle_fill,
+                                  color: Color.fromARGB(255, 0, 153, 255),
+                                  size: 30,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Create Routine",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: isCreateSceneEnabled
-                                    ? Colors.black
-                                    : Colors.grey,
-                              ),
-                            )
-                          ],
+                              Text(
+                                "Create Routine",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: isCreateSceneEnabled
+                                      ? Colors.black
+                                      : Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         // --- ---------------------- Create Lightgroup ------------------
                         AbsorbPointer(

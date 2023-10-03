@@ -55,6 +55,7 @@ class AppColorDark {
   static Color circuitsColor = const Color(0xFF2f2f51);
 
   //------------------------- menu ----------------------------
+  static Color first_oval = const Color(0xFF000000);
   static Color menu_back = const Color(0xFF000000);
   static Color sign_in_text_tt = const Color(0xFFffffff);
 }

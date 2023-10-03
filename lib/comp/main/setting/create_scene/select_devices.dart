@@ -1,68 +1,35 @@
-import 'package:Arum_Smart_Home/comp/main/setting/add_to_fav/components.dart';
+import 'package:Arum_Smart_Home/comp/main/setting/create_scene/create_scene.dart';
 import 'package:Arum_Smart_Home/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class Add_to_fav extends StatefulWidget {
-  const Add_to_fav({Key? key}) : super(key: key);
+class Select_devices extends StatefulWidget {
+  const Select_devices({super.key});
 
   @override
-  State<Add_to_fav> createState() => _Add_to_favState();
+  State<Select_devices> createState() => _Select_devicesState();
 }
 
-class _Add_to_favState extends State<Add_to_fav> {
+class _Select_devicesState extends State<Select_devices> {
   List<Map<String, dynamic>> temporaryList = [];
-
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-    List<Map<String, dynamic>> componentList = themeProvider.componentList;
-    // print(componentList);
+    List<Map<String, dynamic>> componentList = themeProvider.scene_select;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+        title: Container(
+          child: Text(
+            "Add Actions",
+            // style: TextStyle(color: Colors.black),
           ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        title: Row(
-          children: [
-            SizedBox(width: 5),
-            Text(
-              'Select items',
-              style: TextStyle(color: Colors.black),
-            ),
-          ],
         ),
       ),
       body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Choose items to add to favorites",
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
-            alignment: AlignmentDirectional.topStart,
-            child: Text(
-              "Devices",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -83,7 +50,7 @@ class _Add_to_favState extends State<Add_to_fav> {
                     bool isFirstItemInCategory = index == 0 ||
                         filteredList[index]["category"] !=
                             filteredList[index - 1]["category"];
-                    print(isFirstItemInCategory);
+                    // print(isFirstItemInCategory);
                     // If it's the first item in a category, disp lay a section header
                     if (isFirstItemInCategory) {
                       return Column(
@@ -104,24 +71,23 @@ class _Add_to_favState extends State<Add_to_fav> {
                             leading: Checkbox(
                               value: temporaryList.any((element) =>
                                   element["name"] ==
-                                  filteredList[index]["name"]),
+                                      filteredList[index]["name"] &&
+                                  element["category"] ==
+                                      filteredList[index]["category"]),
                               onChanged: (value) {
                                 setState(() {
-                                  // themeProvider.componentList[
-                                  //         componentList.indexOf(filteredList[index])]
-                                  //     ["isSelected"] = value;
                                   bool ispresent = temporaryList.any(
                                       (element) =>
                                           element["name"] ==
-                                          filteredList[index]["name"]);
+                                              filteredList[index]["name"] &&
+                                          element["category"] ==
+                                              filteredList[index]["category"]);
                                   if (!ispresent) {
                                     temporaryList.add(filteredList[index]);
                                   } else {
                                     temporaryList.remove(filteredList[index]);
                                   }
-                                  print(temporaryList);
-                                  // temporaryList = List.from(componentList
-                                  //     .where((item) => item["isSelected"] == true));
+                                  // print(temporaryList);
                                 });
                               },
                             ),
@@ -154,24 +120,27 @@ class _Add_to_favState extends State<Add_to_fav> {
                             ),
                             onTap: () {
                               setState(() {
-                                // filteredList[index]["isSelected"] =
-                                //     !filteredList[index]["isSelected"];
-                                // temporaryList = List.from(componentList
-                                //     .where((item) => item["isSelected"] == true));
+                                // bool ispresent = temporaryList.any((element) =>
+                                //     element["name"] ==
+                                //     filteredList[index]["name"]);
                                 bool ispresent = temporaryList.any((element) =>
                                     element["name"] ==
-                                    filteredList[index]["name"]);
+                                        filteredList[index]["name"] &&
+                                    element["category"] ==
+                                        filteredList[index]["category"]);
                                 if (!ispresent) {
                                   temporaryList.add(filteredList[index]);
                                 } else {
                                   temporaryList.remove(filteredList[index]);
                                 }
-                                print(temporaryList);
+                                // print(temporaryList);
                               });
                             },
                             tileColor: temporaryList.any((element) =>
                                     element["name"] ==
-                                    filteredList[index]["name"])
+                                        filteredList[index]["name"] &&
+                                    element["category"] ==
+                                        filteredList[index]["category"])
                                 ? Colors.blue
                                 : null,
                           ),
@@ -181,20 +150,25 @@ class _Add_to_favState extends State<Add_to_fav> {
                     return ListTile(
                       leading: Checkbox(
                         value: temporaryList.any((element) =>
-                            element["name"] == filteredList[index]["name"]),
+                            element["name"] == filteredList[index]["name"] &&
+                            element["category"] ==
+                                filteredList[index]["category"]),
                         onChanged: (value) {
                           setState(() {
                             // themeProvider.componentList[
                             //         componentList.indexOf(filteredList[index])]
                             //     ["isSelected"] = value;
                             bool ispresent = temporaryList.any((element) =>
-                                element["name"] == filteredList[index]["name"]);
+                                element["name"] ==
+                                    filteredList[index]["name"] &&
+                                element["category"] ==
+                                    filteredList[index]["category"]);
                             if (!ispresent) {
                               temporaryList.add(filteredList[index]);
                             } else {
                               temporaryList.remove(filteredList[index]);
                             }
-                            print(temporaryList);
+                            // print(temporaryList);
                             // temporaryList = List.from(componentList
                             //     .where((item) => item["isSelected"] == true));
                           });
@@ -234,17 +208,21 @@ class _Add_to_favState extends State<Add_to_fav> {
                           // temporaryList = List.from(componentList
                           //     .where((item) => item["isSelected"] == true));
                           bool ispresent = temporaryList.any((element) =>
-                              element["name"] == filteredList[index]["name"]);
+                              element["name"] == filteredList[index]["name"] &&
+                              element["category"] ==
+                                  filteredList[index]["category"]);
                           if (!ispresent) {
                             temporaryList.add(filteredList[index]);
                           } else {
                             temporaryList.remove(filteredList[index]);
                           }
-                          print(temporaryList);
+                          // print(temporaryList);
                         });
                       },
                       tileColor: temporaryList.any((element) =>
-                              element["name"] == filteredList[index]["name"])
+                              element["name"] == filteredList[index]["name"] &&
+                              element["category"] ==
+                                  filteredList[index]["category"])
                           ? Colors.blue
                           : null,
                     );
@@ -265,9 +243,7 @@ class _Add_to_favState extends State<Add_to_fav> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    themeProvider.componentList.forEach((item) {
-                      item["isSelected"] = false;
-                    });
+                    Get.back();
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -290,10 +266,13 @@ class _Add_to_favState extends State<Add_to_fav> {
                 onPressed: () {
                   setState(
                     () {
-                      themeProvider.componentList.forEach(
+                      themeProvider.scene_select.forEach(
                         (item) {
-                          if (temporaryList.any(
-                              (tempItem) => tempItem["name"] == item["name"])) {
+                          // print(temporaryList);
+                          if (temporaryList.any((tempItem) =>
+                              tempItem["name"] == item["name"] &&
+                              tempItem["category"] == item["category"])) {
+                            print(item);
                             item["isSelected"] = true;
                           }
                         },
@@ -301,6 +280,7 @@ class _Add_to_favState extends State<Add_to_fav> {
                       // themeProvider.setComponentchange(componentList);
                       Provider.of<ThemeProvider>(context, listen: false)
                           .notifyListeners();
+                      Get.to(CreateScene());
                     },
                   );
                 },
